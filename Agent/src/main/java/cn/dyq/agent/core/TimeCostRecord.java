@@ -1,15 +1,15 @@
 package cn.dyq.agent.core;
 
-import cn.dyq.agent.DateUtil;
+import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 public class TimeCostRecord {
-    public String className;
-    public String methodName;
-    public long startTime;
-    public long endTime;
+    public MethodIdentifier method;
+    public List<StackTraceElement> callTree = new ArrayList<>();
+    public long count;//调用次数
+    public List<CostPair> costs = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return String.format("record[%s:%s] callAt:%s cost:%sms", className, methodName, DateUtil.fromTimeToStandardStr(startTime), String.valueOf(endTime - startTime));
-    }
 }

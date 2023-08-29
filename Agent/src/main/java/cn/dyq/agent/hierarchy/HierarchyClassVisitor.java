@@ -1,10 +1,7 @@
 package cn.dyq.agent.hierarchy;
 
 import cn.dyq.agent.advice.AdviceUtil;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.*;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -31,7 +28,7 @@ class HierarchyClassVisitor extends ClassVisitor {
                 @Override
                 public void accept(Class<?> aClass) {
                     for (Method method : aClass.getDeclaredMethods()) {
-                        methods.add(new CMethodInfo(aClass.getName().replaceAll("\\.", "/"), method.getName()));
+                        methods.add(new CMethodInfo(aClass.getName().replaceAll("\\.", "/"), method.getName(), Type.getMethodDescriptor(method)));
                     }
                 }
             });
@@ -44,7 +41,7 @@ class HierarchyClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
 
-        CMethodInfo cMethodInfo = new CMethodInfo(cName, name);
+        CMethodInfo cMethodInfo = new CMethodInfo(cName, name,descriptor);
         if (methods.contains(cMethodInfo)) {
             return null;
         }
@@ -61,7 +58,7 @@ class HierarchyClassVisitor extends ClassVisitor {
                         ClassReader classReader1 = new ClassReader(owner);
                         HierarchyClassVisitor specifyClassVisitor = new HierarchyClassVisitor(Opcodes.ASM8, owner, name1, methods);
                         classReader1.accept(specifyClassVisitor, 0);
-                        methods.add(new CMethodInfo(owner, name1));
+                        methods.add(new CMethodInfo(owner, name1, descriptor));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

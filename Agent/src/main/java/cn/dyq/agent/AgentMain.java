@@ -6,17 +6,10 @@ import cn.dyq.agent.hierarchy.MethodHierarchyUtil;
 import cn.dyq.agent.http.HttpClientThread;
 import cn.dyq.agent.http.HttpTransUtil;
 import cn.hutool.json.JSONUtil;
-import net.bytebuddy.asm.Advice;
-import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Origin;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
-import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import org.dyq.common.AgentParams;
 
 import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class AgentMain {
@@ -53,7 +46,7 @@ public class AgentMain {
         inst.addTransformer(timeCostTransformer, true);
 
         inst.retransformClasses(finalClassSet.toArray(new Class[]{}));
-        HttpTransUtil.sendSuccess("-----tran finish------");
+        HttpTransUtil.sendSuccess(String.format("-----attach and trans entry %s#%s success------", GlobalConfig.getInstance().getEnterClazzName(), GlobalConfig.getInstance().getEnterMethod()));
     }
 
     private static boolean preCheckAndConfig(Instrumentation inst, String args) {

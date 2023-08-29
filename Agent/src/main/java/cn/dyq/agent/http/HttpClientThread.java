@@ -42,7 +42,7 @@ public class HttpClientThread implements Runnable {
         boolean exitThread;
         try {
             String resp = HttpUtil.get(String.format("http://%s:%d%s", Settings.HTTP_HOST, GlobalConfig.getInstance().getHttpPort(), "/heartbeat"));
-            System.out.println(" res:" + resp);
+
             exitThread = resp == null;
         } catch (Throwable e) {
             exitThread = true;

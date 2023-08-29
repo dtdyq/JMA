@@ -37,7 +37,6 @@ public class TimeCostManager {
         if (!canRecord) {
             return;
         }
-        System.out.println("merge " + record);
         record.count = 1;
         String key = Thread.currentThread().getName();
         TimeCostChain chain = costMap.getOrDefault(key, null);
@@ -75,11 +74,8 @@ public class TimeCostManager {
                 timeCostChain.recordList = new ArrayList<>();
                 backup.get(threadName).put(System.currentTimeMillis(), back);
                 if (back.recordList.isEmpty()) {
-                    System.out.println("enter by return");
                     return;
                 }
-                HttpTransUtil.sendInfo("---------------------------------------------------------------");
-                System.out.println(back.recordList);
                 HttpTransUtil.sendInfo("=======" + Thread.currentThread().getName() + "||seq:" + seq.get() + "===========");
                 List<StatisticInfo> infos = back.recordList.stream().map(r -> {
                     StatisticInfo info = new StatisticInfo();
@@ -104,9 +100,18 @@ public class TimeCostManager {
                     allCost += info.totalCost;
                 }
                 HttpTransUtil.sendInfo("TC(ms)\tAC(ms)\tMIN(ms)\tMAX(ms)\tCOUNT\tINFO");
+                Set<String> infoSet = new HashSet<>();
                 for (StatisticInfo record : infos) {
+                    String cName = record.record.method.className;
+                    String infoStr = cName.substring(cName.lastIndexOf(".") + 1) + "#" + record.record.method.methodName;
+                    if (!infoSet.contains(infoStr)) {
+                        infoSet.add(infoStr);
+                    } else {
+                        infoStr = cName + "#" + record.record.method.methodName;
+                        infoSet.add(infoStr);
+                    }
                     String statistic = String.format("%d\t%d\t%d\t%d\t%d\t%s", record.totalCost, record.avgCost
-                            , record.minCost, record.maxCost, record.record.count, record.record.method.className + "#" + record.record.method.methodName);
+                            , record.minCost, record.maxCost, record.record.count, infoStr);
                     if ((float) record.totalCost / (float) allCost >= 0.1f) {
                         HttpTransUtil.sendWarn(statistic);
                     } else {

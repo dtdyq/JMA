@@ -12,11 +12,11 @@ public class PrintUtil {
     }
 
     public static void info(String log) {
-        print(log, "magenta", false);
+        print(log, "", false);
     }
 
     public static void infoLine(String log) {
-        print(log, "magenta", true);
+        print(log, "", true);
     }
 
     public static void warn(String log) {
@@ -36,7 +36,8 @@ public class PrintUtil {
     }
 
     private static void print(String log, String fg, boolean newLine) {
-        String print = CommandLine.Help.Ansi.AUTO.string(String.format("@|fg(%s) %s|@", fg, log));
+        String print = "".equals(fg) ? log : CommandLine.Help.Ansi.AUTO.string(String.format("@|fg(%s) %s|@", fg, log));
+
         if (newLine) {
             System.out.println(print);
         } else {

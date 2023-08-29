@@ -3,6 +3,7 @@ package cn.dyq.agent.http;
 import cn.dyq.agent.GlobalConfig;
 import cn.dyq.agent.advice.ResetTransformer;
 import cn.dyq.agent.advice.TimeCostTransformer;
+import cn.dyq.agent.core.TimeCostManager;
 import cn.hutool.http.HttpUtil;
 import org.dyq.common.Settings;
 
@@ -58,6 +59,7 @@ public class HttpClientThread implements Runnable {
                     instrumentation.addTransformer(resetTransformer, true);
                     instrumentation.retransformClasses(GlobalConfig.getInstance().getFinalClassSet().toArray(new Class[]{}));
                     instrumentation.removeTransformer(resetTransformer);
+                    TimeCostManager.getInstance().canRecord(false);
                 }
             }
         }

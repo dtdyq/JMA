@@ -26,9 +26,11 @@ public class TimeCostManager {
 
     }
 
-    public void canRecord() {
-        seq.getAndAdd(1);
-        canRecord = true;
+    public void canRecord(boolean b) {
+        if (b) {
+            seq.getAndAdd(1);
+        }
+        canRecord = b;
     }
 
     public synchronized void mergeRecord(TimeCostRecord record) {

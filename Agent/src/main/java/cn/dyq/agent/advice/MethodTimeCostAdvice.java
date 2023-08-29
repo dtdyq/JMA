@@ -11,7 +11,7 @@ public class MethodTimeCostAdvice {
     static long onEnter(@Advice.Origin Method method) {
         if (method.getName().equals(GlobalConfig.getInstance().getEnterMethod())
                 && method.getDeclaringClass().getName().equals(GlobalConfig.getInstance().getEnterClassName())) {
-            TimeCostManager.getInstance().canRecord();
+            TimeCostManager.getInstance().canRecord(false);
         }
         return System.currentTimeMillis();
     }

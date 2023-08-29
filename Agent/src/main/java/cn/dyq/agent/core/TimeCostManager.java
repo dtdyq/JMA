@@ -37,7 +37,6 @@ public class TimeCostManager {
         if (!canRecord) {
             return;
         }
-        record.count = 1;
         String key = Thread.currentThread().getName();
         TimeCostChain chain = costMap.getOrDefault(key, null);
         if (chain == null) {

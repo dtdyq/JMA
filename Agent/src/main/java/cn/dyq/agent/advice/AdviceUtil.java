@@ -31,6 +31,7 @@ public class AdviceUtil {
         record.method = identifier;
         record.costs.add(CostPair.of(start, end));
         record.callTree = callChain;
+        record.count = record.costs.size();
         TimeCostManager.getInstance().mergeRecord(record);
     }
 

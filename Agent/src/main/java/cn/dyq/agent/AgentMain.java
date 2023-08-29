@@ -29,7 +29,6 @@ public class AgentMain {
     public static void agentmain(String args, Instrumentation inst) throws Exception {
         //inst.appendToSystemClassLoaderSearch(new JarFile("D:\\code\\java\\JMA\\target\\JMA-1.0-SNAPSHOT.jar"));
 
-
         if (!preCheckAndConfig(inst, args)) {
             return;
         }
@@ -81,25 +80,5 @@ public class AgentMain {
             throw new RuntimeException("class[" + GlobalConfig.getInstance().getEnterClassName() + "] not loaded");
         }
         return true;
-    }
-
-    public static class MyAdvice {
-        @Advice.OnMethodEnter
-        static void onEnter(@Advice.Origin Method method) {
-            if (!method.getDeclaringClass().isInterface()) {
-            }
-        }
-
-        @Advice.OnMethodExit
-        static void onExit(@Advice.Origin Method method) {
-            if (!method.getDeclaringClass().isInterface()) {
-            }
-        }
-    }
-
-    static class Interceptor {
-        @RuntimeType
-        public static void intercept(@AllArguments Object[] args, @Origin Method method, @SuperCall Callable<?> callable) throws Exception {
-        }
     }
 }

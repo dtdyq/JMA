@@ -11,12 +11,10 @@ public class ClassA {
         ClassB classB = new ClassB();
         classB.runB1();
         classB.runB2();
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ClassB().runTT();
-            }
-        });
+        classB.runB1();
+        classB.runB2();
+        classB.runB1();
+        classB.runB1();
     }
 
     public void runA1() {

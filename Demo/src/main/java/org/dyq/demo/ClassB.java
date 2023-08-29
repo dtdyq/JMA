@@ -9,6 +9,7 @@ public class ClassB extends ClassC {
             throw new RuntimeException(e);
         }
         runB2();
+        runB2();
     }
 
 
@@ -21,8 +22,11 @@ public class ClassB extends ClassC {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }    public void runTT() {
+    }
+
+    public void runTT() {
         System.out.println("run tt");
+        runC();
         runC();
         try {
             Thread.sleep(1000);
@@ -31,6 +35,7 @@ public class ClassB extends ClassC {
             throw new RuntimeException(e);
         }
     }
+
     private void test() {
         System.out.println("test");
     }

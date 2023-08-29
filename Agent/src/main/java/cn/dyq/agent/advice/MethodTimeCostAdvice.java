@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
 public class MethodTimeCostAdvice {
     @Advice.OnMethodEnter
     static long onEnter(@Advice.Origin Method method) {
+        if (method.getName().equals(GlobalConfig.getInstance().getEnterMethod())
+                && method.getDeclaringClass().getName().equals(GlobalConfig.getInstance().getEnterClassName())) {
+            TimeCostManager.getInstance().canRecord();
+        }
         return System.currentTimeMillis();
     }
 
